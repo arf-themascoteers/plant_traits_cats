@@ -16,9 +16,11 @@ class PlantDataset(Dataset):
         for group in list(df["Group"]):
             self.group.append(self.label_mapping[group])
         self.group = torch.tensor(self.group)
-
-        columns_to_drop = ['File.Name', 'Genotype ', 'Treatment', 'Replication', 'Group', 'Day']
+        columns_to_convert = ['Genotype', 'Treatment', 'Replication']
+        df = pd.get_dummies(df, columns=columns_to_convert)
+        columns_to_drop = ['File.Name', 'Group', 'Day']
         df = df.drop(columns=columns_to_drop, axis=1)
+        df = df.replace({False: 0, True: 1})
         self.data = torch.tensor(df.to_numpy(), dtype=torch.float32)
 
     def __len__(self):
