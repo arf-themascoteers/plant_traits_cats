@@ -37,7 +37,6 @@ if __name__ == "__main__":
 
     ds = PlantDataset(is_train=True)
     dl = DataLoader(ds, batch_size=1000, shuffle=True)
-
     for data, group in dl:
         print(data.shape)
         print(group.shape)
